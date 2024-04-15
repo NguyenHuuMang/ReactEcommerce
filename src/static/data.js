@@ -1,6 +1,5 @@
 // navigation Data
 
-
 export const navItems = [
   {
     title: "Home",
@@ -13,10 +12,6 @@ export const navItems = [
   {
     title: "Products",
     url: "/products",
-  },
-  {
-    title: "Events",
-    url: "/events",
   },
   {
     title: "FAQ",
@@ -237,7 +232,8 @@ export const categoriesData = [
     id: 7,
     title: "Electronic",
     subTitle: "",
-    image_Url: "https://sunhouse.com.vn/pic/thumb/large/product/SHR-AW09C110_14.jpg",
+    image_Url:
+      "https://sunhouse.com.vn/pic/thumb/large/product/SHR-AW09C110_14.jpg",
   },
   {
     id: 8,

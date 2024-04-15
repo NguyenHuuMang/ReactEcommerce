@@ -24,23 +24,27 @@ const UserOrderDetails = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    dispatch(getAllOrdersOfShop(seller._id));
+    dispatch(getAllOrdersOfShop(seller._id || ""));
   }, [dispatch, seller._id]);
 
   const data = orders && orders.find((item) => item._id === id);
 
   const reviewHandler = async (e) => {
     await axios
-      .put(`${server}/product/create-new-review`, {
-        user,
-        rating,
-        comment,
-        productId: selectedItem?._id,
-        orderId: id,
-      }, {withCredentials: true})
+      .put(
+        `${server}/product/create-new-review`,
+        {
+          user,
+          rating,
+          comment,
+          productId: selectedItem?._id,
+          orderId: id,
+        },
+        { withCredentials: true }
+      )
       .then((res) => {
         toast.success(res.data.message);
-        dispatch(getAllOrdersOfUser(user._id))
+        dispatch(getAllOrdersOfUser(user._id));
         setComment("");
         setRating(null);
         setOpen(false);
@@ -52,6 +56,7 @@ const UserOrderDetails = () => {
 
   const formatCountry = (dataCountry) => {
     const options = Country.getAllCountries();
+    console.log(options);
     if (options) {
       const selectedOption = options.find(
         (option) => option.isoCode === dataCountry
@@ -62,7 +67,7 @@ const UserOrderDetails = () => {
         return selectedOption.name;
       } else {
         // If the value is not a valid country value, throw an error or return a default value
-        throw new Error(`Invalid country value: ${dataCountry}`);
+        console.log("Something went wrong");
         // Or return a default value like "Unknown country"
         // return "Unknown country";
       }
@@ -123,13 +128,13 @@ const UserOrderDetails = () => {
                 item.isReviewed ? 
                   null
                 : ( */}
-                  <div
-                  className={`${styles.buttonseller} text-[red]`}
-                  onClick={(e) => setOpen(true) || setSelectedItem(item)}
-                >
-                  Write A Review
-                </div>
-                {/* )
+              <div
+                className={`${styles.buttonseller} text-[red]`}
+                onClick={(e) => setOpen(true) || setSelectedItem(item)}
+              >
+                Write A Review
+              </div>
+              {/* )
               } */}
             </div>
           ))}

@@ -25,14 +25,13 @@ const Cart = ({ setOpenCart }) => {
     dispatch(addToCart(data));
   };
 
-  const [showResult, setShowResult] = useState(false)
+  const [showResult, setShowResult] = useState(false);
 
-  const ref = useRef()
-  useOnClickOutside(ref, () => setShowResult(false))
+  const ref = useRef();
+  useOnClickOutside(ref, () => setShowResult(false));
 
   function useOnClickOutside(ref, handler) {
-  useEffect(
-    () => {
+    useEffect(() => {
       const listener = (event) => {
         // Do nothing if clicking ref's element or descendent elements
         if (!ref.current || ref.current.contains(event.target)) {
@@ -46,72 +45,72 @@ const Cart = ({ setOpenCart }) => {
         document.removeEventListener("mousedown", listener);
         document.removeEventListener("touchstart", listener);
       };
-    },
-    [ref, handler]
-  );
-}
+    }, [ref, handler]);
+  }
 
   return (
-    <div className="fixed top-0 lef-0 w-full bg-[#0000004b] h-screen z-10 overflow-y-scroll" ref={ref}>
+    <div
+      className="fixed top-0 lef-0 w-full bg-[#0000004b] h-screen z-10 overflow-y-scroll"
+      ref={ref}
+    >
       <div className="fixed top-0 right-0 min-h-full w-[25%] bg-white flex flex-col justify-between shadow-sm overflow-y-scroll">
-        {
-          cart && cart.length === 0  && showResult ? (
-            <div className="w-full h-screen flex items-center justify-center">
-              <div className="flex w-full justify-end pt-5 pr-5 fixed top-3 right-3">
-                 <RxCross1
-                    size={25}
-                    className="cursor-pointer"
-                    onClick={() => setOpenCart(false)}
-                 />
-              </div>
-              <h5>Cart Items is Empty!</h5>
+        {cart && cart.length === 0 && showResult ? (
+          <div className="w-full h-screen flex items-center justify-center">
+            <div className="flex w-full justify-end pt-5 pr-5 fixed top-3 right-3">
+              <RxCross1
+                size={25}
+                className="cursor-pointer"
+                onClick={() => setOpenCart(false)}
+              />
             </div>
-          ) : (
-            <>
-             <div>
-          <div className="flex w-full justify-end pt-5 pr-5">
-            <RxCross1
-              size={25}
-              className="cursor-pointer"
-              onClick={() => setOpenCart(false)}
-            />
+            <h5>Cart Items is Empty!</h5>
           </div>
-          {/* Items length */}
-          <div className={`${styles.noramlFlex} p-4`}>
-            <HiOutlineShoppingBag size={25} />
-            <h5 className="pl-2 text-[20px] font-[500]">{cart && cart.length} items</h5>
-          </div>
-
-          {/* cart single items */}
-          <br />
-          <div className="w-full border-t">
-            {cart &&
-              cart.map((i, index) => (
-                <CartSingle
-                  key={index}
-                  data={i}
-                  quantityChangeHandler={quantityChangeHandler}
-                  removeFromCartHandler={removeFromCartHandler}
+        ) : (
+          <>
+            <div className="flex flex-col h-100 overflow-auto">
+              <div className="flex w-full justify-end pt-5 pr-5">
+                <RxCross1
+                  size={25}
+                  className="cursor-pointer"
+                  onClick={() => setOpenCart(false)}
                 />
-              ))}
-          </div>
-        </div>
+              </div>
 
-        <div className="px-5 mb-3">
-          {/* checkout buttons */}
-          <Link to="/checkout">
-            <div
-              className={`h-[45px] flex items-center justify-center w-[100%] bg-[#e44343] rounded-[5px]`}
-            >
-              <h1 className="text-[#fff] text-[18px] font-[600]">
-                Checkout Now (${totalPrice})
-              </h1>
+              {/* Items length */}
+              <div className={`${styles.noramlFlex} p-4`}>
+                <HiOutlineShoppingBag size={25} />
+                <h5 className="pl-2 text-[20px] font-[500]">
+                  {cart && cart.length} items
+                </h5>
+              </div>
+              <div className="px-5 mb-3">
+                {/* checkout buttons */}
+                <Link to="/checkout">
+                  <div
+                    className={`h-[45px] flex items-center justify-center w-[100%] bg-[#e44343] rounded-[5px]`}
+                  >
+                    <h1 className="text-[#fff] text-[18px] font-[600]">
+                      Checkout Now (${totalPrice})
+                    </h1>
+                  </div>
+                </Link>
+              </div>
+              {/* cart single items */}
+              <br />
+              <div className="w-full border-t">
+                {cart &&
+                  cart.map((i, index) => (
+                    <CartSingle
+                      key={index}
+                      data={i}
+                      quantityChangeHandler={quantityChangeHandler}
+                      removeFromCartHandler={removeFromCartHandler}
+                    />
+                  ))}
+              </div>
             </div>
-          </Link>
-        </div>
-            </>
-          )
-        }
+          </>
+        )}
       </div>
     </div>
   );
@@ -137,10 +136,14 @@ const CartSingle = ({ data, quantityChangeHandler, removeFromCartHandler }) => {
     quantityChangeHandler(updateCartData);
   };
 
-
   return (
     <div className="border-b p-4">
-       <RxCross1 className="cursor-pointer" size={20} onClick={() => removeFromCartHandler(data)} style={{marginLeft: 390}}/>
+      <RxCross1
+        className="cursor-pointer"
+        size={20}
+        onClick={() => removeFromCartHandler(data)}
+        style={{ marginLeft: 390 }}
+      />
       <div className="w-full flex items-center">
         <div>
           <div
@@ -158,14 +161,14 @@ const CartSingle = ({ data, quantityChangeHandler, removeFromCartHandler }) => {
           </div>
         </div>
         <img
-           src={`${backend_url}${data?.images[0]}`}
+          src={`${backend_url}${data?.images[0]}`}
           alt=""
           className="w-[80px] h-min ml-2 mr-2 rounded-[5px]"
         />
-         <div className="pl-[5px]">
+        <div className="pl-[5px]">
           <h1>{data.name}</h1>
           <h4 className=" font-bold text-[15px] text-[#00000082]">
-            $ {data.discountPrice} * {value} 
+            $ {data.discountPrice} * {value}
           </h4>
           <h4 className="font-[600] text-[17px] pt-[3px] text-[#d02222] font-Roboto">
             $ {totalPrice}
